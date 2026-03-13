@@ -1,0 +1,21 @@
+{
+    "KPlugin": {
+        "Name": "Quakified Terminal",
+        "Description": "Turn any terminal into a Quake-style dropdown console",
+        "Icon": "utilities-terminal",
+        "Authors": [
+            {
+                "Name": "Sarun Rattanasiri",
+                "Email": "midnight_w@gmx.tw"
+            }
+        ],
+        "Id": "quakified-terminal",
+        "Version": "0.1.0",
+        "License": "GPLv3",
+        "ServiceTypes": [
+            "KWin/Script"
+        ]
+    },
+    "X-Plasma-API": "javascript",
+    "X-Plasma-MainScript": "code/main.js"
+}
