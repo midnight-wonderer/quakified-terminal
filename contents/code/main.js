@@ -130,14 +130,13 @@ function setupQuakeWindow(window, state, opacity, hideOnStart) {
     window.skipTaskbar = true;
     window.skipSwitcher = true;
     window.skipPager = true;
-    if (typeof opacity !== 'undefined') {
-        window.opacity = opacity;
-    }
+    if (isNil(opacity)) return;
+    window.opacity = opacity;
 }
 
 function applyGeometry(workspace, output, window, heightPercentage, verticalPosition) {
     const desktop = workspace.currentDesktop;
-    const rect = workspace.clientArea(KWin.MaximizeArea, output, desktop);
+    const rect = workspace.clientArea(KWin.WorkArea, output, desktop);
     if (!rect) {
         console.error("Failed to get clientArea");
         return;
