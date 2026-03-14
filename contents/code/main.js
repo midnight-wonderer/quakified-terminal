@@ -1,11 +1,14 @@
 function main() {
     const state = {
         window: null,
+        initialized: false,
     };
-    const config = readConfig(KWin), {
+    const config = readAllConfig(), {
         wmClass,
         heightPercentage,
         verticalPosition,
+        opacity,
+        hideOnStart,
     } = config, applyConfiguredGeometry = (output, window) => applyGeometry(
         workspace,
         output,
@@ -13,54 +16,34 @@ function main() {
         heightPercentage,
         verticalPosition,
     );
+
     const windowTracker = new WindowTracker(workspace, wmClass, (window) => {
         state.window = window;
-        setupQuakeWindow(window);
+        setupQuakeWindow(window, state, opacity, hideOnStart);
         const { output } = state;
-        if (!output) return;
+        if (isNil(output)) return;
         applyConfiguredGeometry(output, window);
     });
-    const outputTracker = new OutputTracker(workspace, (output) => {
-        state.output = output;
-    });
-
-    registerShortcut("QuakeTerminalToggle", "Toggle Quake Console", "F12", () => {
-        const { output, window } = state;
-        if (!window) return;
-        if (window.minimized) {
-            window.minimized = false;
-            workspace.activeWindow = window;
-            applyConfiguredGeometry(output, window);
-            return;
-        }
-        if (workspace.activeWindow === window) {
-            window.minimized = true;
-            return;
-        }
-        workspace.activeWindow = window;
-        applyConfiguredGeometry(output, window);
-    });
-
     workspace.windowAdded.connect((window) => {
         windowTracker.addWindow(window);
     });
     workspace.windowRemoved.connect((window) => {
         windowTracker.removeWindow(window);
     });
-    workspace.activeOutputChanged.connect(() => {
-        outputTracker.refresh();
+
+    const outputTracker = new OutputTracker(workspace, (output) => {
+        state.output = output;
+        const { window } = state;
+        if (isNil(window)) return;
+        applyConfiguredGeometry(output, window);
     });
-    workspace.primaryOutputChanged.connect(() => {
+    workspace.screensChanged.connect(() => {
         outputTracker.refresh();
     });
 
-    // // Focus loss behavior
-    // workspace.windowActivated.connect((window) => {
-    //     controller.onWindowActivated(window);
-    // });
-
-    // // Catch an existing terminal on script start
-    // controller.findExistingWindow();
+    // kick start
+    outputTracker.refresh();
+    return { state, workspace, applyConfiguredGeometry };
 }
 
 class WindowTracker {
@@ -99,47 +82,33 @@ class WindowTracker {
 }
 
 class OutputTracker {
-    #workspace;
-    #outputChanged;
-    #output;
-    #preferredOutput;
 
-    constructor(workspace, preferredOutput, outputChanged) {
-        this.#workspace = workspace;
-        this.#outputChanged = outputChanged;
-        this.#preferredOutput = preferredOutput;
+    constructor(workspace, outputChanged) {
+        this._workspace = workspace;
+        this._outputChanged = outputChanged;
         this.refresh();
     }
 
     refresh() {
-        const { primaryOutput, activeOutput } = this.#workspace;
-        if (this.#preferredOutput === "Primary Monitor") {
-            if (typeof primaryOutput === 'undefined')
-                return this.#updateOutput(0);
-            return this.#updateOutput(primaryOutput);
-        }
-
-        if (typeof activeOutput === 'undefined')
-            return this.#updateOutput(0);
-        return this.#updateOutput(activeOutput);
+        const { activeScreen } = this._workspace;
+        this._updateOutput(activeScreen);
     }
 
-    #updateOutput(newValue) {
-        if (this.#output === newValue)
+    _updateOutput(newValue) {
+        if (this._output === newValue)
             return;
-        this.#output = newValue;
-        this.#outputChanged(newValue);
+        this._output = newValue;
+        this._outputChanged(newValue);
     }
 }
 
-
-function readConfig(KWin) {
+function readAllConfig() {
     return {
-        wmClass: KWin.readConfig("WmClass"),
-        verticalPosition: KWin.readConfig("VerticalPosition"),
-        heightPercentage: KWin.readConfig("HeightPercentage"),
-        monitorSelection: KWin.readConfig("MonitorSelection"),
-        focusLossBehavior: KWin.readConfig("HideOnFocusLoss"),
+        wmClass: readConfig("WmClass", "konsole"),
+        verticalPosition: readConfig("VerticalPosition", "Top"),
+        heightPercentage: readConfig("HeightPercentage", 50),
+        opacity: readConfig("Opacity", 100) / 100,
+        hideOnStart: readConfig("HideOnStart", true),
     };
 }
 
@@ -148,36 +117,76 @@ function findExistingWindows(workspace, wmClass) {
     return windows.filter((window) => window.resourceClass === wmClass);
 }
 
-
-function setupQuakeWindow(window) {
+function setupQuakeWindow(window, state, opacity, hideOnStart) {
+    if (!window) return;
+    if (!state.initialized) {
+        state.initialized = true;
+        if (hideOnStart) {
+            window.minimized = true;
+        }
+    }
     window.onAllDesktops = true;
     window.keepAbove = true;
     window.skipTaskbar = true;
     window.skipSwitcher = true;
     window.skipPager = true;
+    if (typeof opacity !== 'undefined') {
+        window.opacity = opacity;
+    }
 }
 
-
 function applyGeometry(workspace, output, window, heightPercentage, verticalPosition) {
-    const desktop = workspace.currentVirtualDesktop;
-    const rect = workspace.clientArea(workspace.MaximizeArea, output, desktop);
+    const desktop = workspace.currentDesktop;
+    const rect = workspace.clientArea(KWin.MaximizeArea, output, desktop);
     if (!rect) {
-        print("Failed to get clientArea");
+        console.error("Failed to get clientArea");
         return;
     }
-    const targetHeight = Math.round(rect.height * (heightPercentage / 100));
-    let yPos = rect.y;
+    const { x, y, width, height } = rect;
+    const targetHeight = Math.round(height * (heightPercentage / 100));
+    let yPos = y;
 
     if (verticalPosition === "Bottom") {
-        yPos = rect.y + rect.height - targetHeight;
+        yPos += height - targetHeight;
     }
 
     window.frameGeometry = {
-        x: rect.x,
+        x,
         y: yPos,
-        width: rect.width,
+        width,
         height: targetHeight,
     };
 }
 
-main();
+function isNil(value) {
+    return typeof value === 'undefined' || value === null;
+}
+
+// create outer scope variables to support `registerShortcut`
+const {
+    state: oState,
+    workspace: oWorkspace,
+    applyConfiguredGeometry: oApplyConfiguredGeometry,
+} = main();
+
+// Quirk: `registerShortcut` must be outside of `main`, or it will be garbage collected
+registerShortcut("QuakeTerminalToggle", "Toggle Quake Console", "F12", () => {
+    const { output, window } = oState;
+    if (isNil(window)) return;
+    if (window.minimized) {
+        window.minimized = false;
+        if (window.output !== output)
+            oWorkspace.sendClientToScreen(window, output);
+        oWorkspace.activeWindow = window;
+        oApplyConfiguredGeometry(output, window);
+        return;
+    }
+    if (oWorkspace.activeWindow === window) {
+        window.minimized = true;
+        return;
+    }
+    if (window.output !== output)
+        oWorkspace.sendClientToScreen(window, output);
+    oWorkspace.activeWindow = window;
+    oApplyConfiguredGeometry(output, window);
+});

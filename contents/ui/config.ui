@@ -68,51 +68,65 @@
       <string>%</string>
      </property>
      <property name="minimum">
-      <number>1</number>
+      <number>20</number>
      </property>
      <property name="maximum">
       <number>100</number>
      </property>
      <property name="value">
-      <number>40</number>
+      <number>50</number>
      </property>
     </widget>
    </item>
    <item row="3" column="0">
-    <widget class="QLabel" name="labelMonitorSelection">
+    <widget class="QLabel" name="labelOpacity">
      <property name="text">
-      <string>Monitor Selection:</string>
+      <string>Opacity:</string>
      </property>
     </widget>
    </item>
    <item row="3" column="1">
-    <widget class="QComboBox" name="kcfg_MonitorSelection">
+    <widget class="QSlider" name="kcfg_Opacity">
      <property name="toolTip">
-      <string>Which monitor the terminal should appear on.</string>
+      <string>Opacity</string>
      </property>
-     <item>
-      <property name="text">
-       <string>Primary Monitor</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Active Monitor</string>
-      </property>
-     </item>
+     <property name="minimum">
+      <number>10</number>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="value">
+      <number>100</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="tickPosition">
+      <enum>QSlider::TicksBelow</enum>
+     </property>
+     <property name="tickInterval">
+      <number>10</number>
+     </property>
     </widget>
    </item>
    <item row="4" column="0">
-    <widget class="QLabel" name="labelHideOnFocusLoss">
+    <widget class="QLabel" name="labelHideOnStart">
      <property name="text">
-      <string>Focus Loss Behavior:</string>
+      <string>Hide on start:</string>
      </property>
     </widget>
    </item>
    <item row="4" column="1">
-    <widget class="QCheckBox" name="kcfg_HideOnFocusLoss">
+    <widget class="QCheckBox" name="kcfg_HideOnStart">
+     <property name="toolTip">
+      <string>Whether to start with the terminal hidden (minimized).</string>
+     </property>
      <property name="text">
-      <string>Automatically minimize</string>
+      <string/>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
      </property>
     </widget>
    </item>

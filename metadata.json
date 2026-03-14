@@ -1,22 +1,24 @@
 {
+    "KPackageStructure": "KWin/Script",
     "KPlugin": {
         "Name": "Quakified Terminal",
         "Description": "Turn any terminal into a Quake-style dropdown console",
         "Icon": "utilities-terminal",
         "Authors": [
             {
-                "Name": "Sarun Rattanasiri",
-                "Email": "midnight_w@gmx.tw"
+                "Name": "Sarun Rattanasiri"
             }
         ],
         "Id": "quakified-terminal",
-        "Version": "0.1.0",
+        "Version": "0.0.1",
         "License": "GPLv3",
         "ServiceTypes": [
-            "KWin/Script"
+            "KWin/Script",
+            "KCModule"
         ]
     },
     "X-Plasma-API": "javascript",
     "X-Plasma-API-Minimum-Version": "6.0",
-    "X-Plasma-MainScript": "code/main.js"
+    "X-Plasma-MainScript": "code/main.js",
+    "X-KDE-ConfigModule": "kwin/effects/configs/kcm_kwin4_genericscripted"
 }
