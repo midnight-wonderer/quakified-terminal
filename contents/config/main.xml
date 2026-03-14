@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+  <group name="General">
+    <entry name="WmClass" type="String">
+      <default>konsole</default>
+    </entry>
+    <entry name="VerticalPosition" type="Enum">
+      <choices>
+        <choice name="Top"/>
+        <choice name="Bottom"/>
+      </choices>
+      <default>Top</default>
+    </entry>
+    <entry name="HeightPercentage" type="Int">
+      <default>40</default>
+      <min>1</min>
+      <max>100</max>
+    </entry>
+    <entry name="MonitorSelection" type="Enum">
+      <choices>
+        <choice name="Primary Monitor"/>
+        <choice name="Active Monitor"/>
+      </choices>
+      <default>Primary Monitor</default>
+    </entry>
+    <entry name="HideOnFocusLoss" type="Bool">
+      <default>false</default>
+    </entry>
+  </group>
+</kcfg>

@@ -92,12 +92,12 @@
      </property>
      <item>
       <property name="text">
-       <string>Active Monitor</string>
+       <string>Primary Monitor</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>Primary Monitor</string>
+       <string>Active Monitor</string>
       </property>
      </item>
     </widget>
@@ -113,6 +113,19 @@
     <widget class="QCheckBox" name="kcfg_HideOnFocusLoss">
      <property name="text">
       <string>Automatically minimize</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0" colspan="2">
+    <widget class="QLabel" name="labelReminder">
+     <property name="text">
+      <string>Note: To apply your changes, please toggle the script off and on in the KWin Scripts list: uncheck the script, click Apply, then re-check it and click Apply again.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="styleSheet">
+      <string>margin-top: 10px; color: palette(window-text);</string>
      </property>
     </widget>
    </item>

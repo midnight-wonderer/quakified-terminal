@@ -10,8 +10,8 @@ The following settings should be configurable via the KWin Script configuration 
 *   **Vertical Position**: `Top` (default) or `Bottom`.
 *   **Height Percentage**: Target height of the terminal relative to the work area (default: `40%`).
 *   **Monitor Selection**:
+    *   `Primary Monitor` (default): Always open on the primary screen.
     *   `Active Monitor`: Follow the monitor where the cursor or active window is.
-    *   `Primary Monitor`: Always open on the primary screen.
 *   **Focus Loss Behavior**: (Optional) Automatically minimize the terminal when it loses focus.
 
 ## 2. Behavioral Logic
