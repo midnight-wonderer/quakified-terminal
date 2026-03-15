@@ -2,12 +2,18 @@
 
 A KWin script that turns any terminal emulator into a Quake-style dropdown or slide-up console.
 
+![Screenshot](assets/screenshot.png)
+
+> [!NOTE]
+> The screenshot features a specific terminal emulator, but the script is compatible with any terminal of your choice.
+
 ## ✨ Features
 
 * 🌍 **Universal Compatibility**: Works with any terminal emulator by specifying its `WM_CLASS`.
+* 💠 **Wayland Native**: Designed to work seamlessly on Wayland environments.
 * ⚡ **Global Shortcut**: Toggle the terminal window instantly with a single keypress.
 * 🎯 **Custom Placement**: Align the console at the bottom, or top of the screen.
-* 🧹 **Declutter**: Keeps your terminal out of the taskbar.
+* 🧹 **Declutter**: Keeps the icon of your terminal out of the taskbar.
 * 👻 **Opacity Control**: Adjust window transparency directly from KWin Settings.
 * 🧩 **Pure KWin Script**: No extra dependencies.
 
@@ -17,9 +23,17 @@ Getting started involves installing the script, configuring it for your preferre
 
 ### 1. 📦 Install the KWin Script
 
-1. Download the `.kwinscript` file from the [Releases page](https://github.com/midnight-wonderer/quakified-terminal/releases).
-2. Open **System Settings** > **Window Management** > **KWin Scripts** > **Install From File...** (labels may vary slightly depending on your KDE version) and select the downloaded file.
+1. Open **System Settings** > **Window Management** > **KWin Scripts**.
+2. Install the script using one of these methods:
+   - **Recommended**: Click **Get New...**, search for **"Quakified Terminal"**, and click **Install**.
+   - **Manual**: Download the `.kwinscript` from the [releases page](https://github.com/midnight-wonderer/quakified-terminal/releases), click **Install From File...**, and select the downloaded file.
 3. Enable the script by checking the checkbox next to its name.
+
+> [!NOTE]
+> Labels may vary slightly depending on your KDE version.
+
+> [!TIP]
+> To ensure you're getting a secure and authentic build, you can check the [GitHub Attestations](https://github.com/midnight-wonderer/quakified-terminal/attestations).
 
 ### 2. ⚙️ Configure the Script
 
