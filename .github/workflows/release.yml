@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build & Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Install just
+        uses: extractions/setup-just@v3
+
+      - name: Package
+        run: |
+          just package
+
+      - name: Attest Build
+        uses: actions/attest@v4
+        with:
+          subject-path: quakified-terminal.kwinscript
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: quakified-terminal.kwinscript
+          fail_on_unmatched_files: true
+          generate_release_notes: true
