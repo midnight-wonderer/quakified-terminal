@@ -1,84 +1,67 @@
-# Quakified Terminal (for KDE)
+# 🖥️ Quakified Terminal (for KDE)
 
-A KWin script that turns any terminal into a Quake-style dropdown console.
+A KWin script that turns any terminal emulator into a Quake-style dropdown or slide-up console.
 
-## Overview
+## ✨ Features
 
-**Quakified Terminal** transforms your favorite terminal emulator into a dropdown or slide-up console, inspired by the classic Quake console.
+* 🌍 **Universal Compatibility**: Works with any terminal emulator by specifying its `WM_CLASS`.
+* ⚡ **Global Shortcut**: Toggle the terminal window instantly with a single keypress.
+* 🎯 **Custom Placement**: Align the console at the bottom, or top of the screen.
+* 🧹 **Declutter**: Keeps your terminal out of the taskbar.
+* 👻 **Opacity Control**: Adjust window transparency directly from KWin Settings.
+* 🧩 **Pure KWin Script**: No extra dependencies.
 
-Trying out KDE Plasma for the first time as a Gnome user; I missed [ddterm](https://extensions.gnome.org/extension/3780/ddterm/) the most. Quake-style console is very convinient, letting you access it with a single keypress. Pairing it with `tmux` is a chef's kiss.
+## 🛠️ Installation and Setup
 
-I tried `yakuake` but won't let me position at the bottom of the screen. Since windows have title bar at the top, I want to align my console at the bottom of the screen, so I can see and control it easily.
+Getting started involves installing the script, configuring it for your preferred terminal, setting your terminal to autostart, and assigning a shortcut.
 
-I am surprised that there is no terminal matching my needs on KDE, given that it is famous for its customizability. So I decided to write this KWin script to provide exactly what I want.
+### 1. 📦 Install the KWin Script
 
-## Features
+1. Download the `.kwinscript` file from the [Releases page](https://github.com/midnight-wonderer/quakified-terminal/releases).
+2. Open **System Settings** > **Window Management** > **KWin Scripts** > **Install From File...** (labels may vary slightly depending on your KDE version) and select the downloaded file.
+3. Enable the script by checking the checkbox next to its name.
 
-* Toggle the terminal window with a global shortcut key.
-* Do not clutter your task bar.
-* Works with any terminal emulator by specifying its `WM_CLASS`.
-* Opacity control: Adjust window transparency from KWin Settings.
+### 2. ⚙️ Configure the Script
 
-## Installation
+To manage your terminal, the script needs to know the terminal's App ID (`WM_CLASS`). 
 
-There are two subobjectives to achieve the goal.
+1. **Find the `WM_CLASS`**: If you are on Wayland, you can use [this guide](https://gist.github.com/midnight-wonderer/b7c1973ee76d77b63a67d1cec37b1d91) to discover the App ID of your terminal.
+2. Click the configure icon near the script name in KWin Scripts.
+3. Enter the terminal's `WM_CLASS` value, and configure other settings as you please.
 
-1. Make the terminal autostart on login.
-2. Configure the script to manage the terminal window.
+> [!NOTE]
+> The script must be manually reloaded after applying configuration changes. Simply uncheck the script, click apply, re-check it, and click apply again.
 
-### Prerequisites
-
-- KDE Plasma 6.
-- Your favorite terminal emulator.
-- Information to gather:
-    * To configure the terminal as a startup application, its desktop file have to be located.
-    * To link the terminal window with the script, the `WM_CLASS` have to be identified.
-
-#### How to get desktop file location
-
-These files usually reside in `/usr/share/applications/` or `/usr/local/share/applications/` for applications installed system-wide, or `~/.local/share/applications/` for user-specific applications. 
-Check these directories out to find where the desktop file of your terminal emulator is located.
-
-#### How to get `WM_CLASS` (aka. App ID)
-
-I assumed you are on Wayland, otherwise you would use something like [Guake](https://guake.github.io/) already.
-
-[Let's ask Gemini](https://gist.github.com/midnight-wonderer/b7c1973ee76d77b63a67d1cec37b1d91).  
-In the case the answer is outdated, you could ask your favorite AI with a similar question again. (Assuming they are still around.)
-
-### Setting up
-
-#### Make the terminal autostart on login
-
-Symbolically link the desktop file you located in the previous step to `~/.config/autostart`.
-
-For example:
-
-~~~bash
-ln -s /usr/share/applications/org.gnome.Ptyxis.desktop ~/.config/autostart/
-# Notice: create the directory if it doesn't exist.
-~~~
-
-#### Configure the script to manage the terminal window
-
-* Download `kwinscript` file from our [release page](https://github.com/midnight-wonderer/quakified-terminal/releases).
-* Install it via KDE System Settings. `System Settings` > `Window Management` > `KWin Scripts` > `Install From File...` (Or other labels that may vary depending on your language and KDE version.) Choose the downloaded file.
-* Enable the script by checking the checkbox next to its name.
-* Configure the script by clicking the configure icon next to its name.
-
-Here the preview of the current version:
 ![Configure](assets/settings.png)
 
-Importnat: put in the WM Class the value you got from the previous step.
+### 3. 🚘 Autostart Your Terminal
 
-* Once configured, the script must be reloaded manually to apply the changes. See the note on the configuration screen. (AFAIK, there is no official way to listen to the configuration change event for the moment. But this is just one off event, and you won't do this frequently. So, no big deal, IMO.)
+> [!IMPORTANT]
+> The script controls an existing terminal window; it does not launch one. You need to configure your terminal to start on login.
 
-* Finally, you have to set up the shortcut key in **System Settings** > **Keyboard** > **Shortcuts** > Search for "Quake", it is probably under the "Window Management" service.
+1. Locate your terminal's `.desktop` file. These are usually found in `/usr/share/applications/`, `/usr/local/share/applications/`, or `~/.local/share/applications/`.
+2. Create a symbolic link to this file in your autostart directory.
 
-Assign your preferred shortcut key. Mine is `F12`.
+```bash
+mkdir -p ~/.config/autostart
+ln -s /usr/share/applications/org.gnome.Ptyxis.desktop ~/.config/autostart/
+```
 
-Reboot your system to see the full experience, you assigned shortcut key will magically bring up the terminal.
+### 4. ⌨️ Set the Global Shortcut
 
-## License
+1. Go to **System Settings** > **Keyboard** > **Shortcuts**.
+2. Search for "Quake" (it is usually located under the "Window Management" service).
+3. Assign your preferred shortcut key (e.g., `F12`).
+
+> [!TIP]
+> Reboot your system. Your chosen shortcut key will now magically bring up the terminal!
+
+## 🔥 Motivation
+
+As a long-time GNOME user transitioning to KDE Plasma, what I missed most was [ddterm](https://extensions.gnome.org/extension/3780/ddterm/). A Quake-style console is incredibly convenient, offering instant access with a single keypress. Pairing it with `tmux` is a chef's kiss.
+
+While KDE has `yakuake`, it restricts the console strictly to the top of the screen. Because most windows have title bars at the top, I prefer my console aligned at the bottom where it won't overlap essential UI elements. Surprisingly, I couldn't find a terminal on KDE that matched this need, despite its reputation for customizability. Consequently, I decided to write this KWin script to provide exactly what I wanted.
+
+## 📜 License
 
 This project is licensed under the [**GPLv3** License](LICENSE.md).

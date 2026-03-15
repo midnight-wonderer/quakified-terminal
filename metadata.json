@@ -3,6 +3,7 @@
     "KPlugin": {
         "Name": "Quakified Terminal",
         "Description": "Turn any terminal into a Quake-style dropdown console",
+        "Website": "https://github.com/midnight-wonderer/quakified-terminal",
         "Icon": "utilities-terminal",
         "Authors": [
             {
