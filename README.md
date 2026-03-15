@@ -1,8 +1,8 @@
 # 🖥️ Quakified Terminal (for KDE)
 
-[![KDE Store](https://img.shields.io/badge/KDE%20Store-Available-blue?logo=kde)](https://store.kde.org/p/2351909)
-[![GitHub Release](https://img.shields.io/github/v/release/midnight-wonderer/quakified-terminal)](https://github.com/midnight-wonderer/quakified-terminal/releases)
-[![License](https://img.shields.io/github/license/midnight-wonderer/quakified-terminal)](LICENSE.md)
+[![KDE Store](https://img.shields.io/badge/KDE%20Store-Available-blue?style=for-the-badge&logo=kde)](https://store.kde.org/p/2351909)
+[![GitHub Release](https://img.shields.io/github/v/release/midnight-wonderer/quakified-terminal?style=for-the-badge)](https://github.com/midnight-wonderer/quakified-terminal/releases)
+[![License](https://img.shields.io/github/license/midnight-wonderer/quakified-terminal?style=for-the-badge)](LICENSE.md)
 
 A KWin script that turns any terminal emulator into a Quake-style dropdown or slide-up console.
 
